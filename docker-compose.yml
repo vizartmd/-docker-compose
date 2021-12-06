@@ -39,5 +39,6 @@ services:
       - irt-back
     ports:
       - 80:4200
-  networks:
-    - backend
+      
+networks:
+  backend:
