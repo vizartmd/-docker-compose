@@ -1,0 +1,57 @@
+version: "3.3"
+
+services:
+  irt-mysql:
+    image: mysql:8.0.26
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_DATABASE: taskmanager
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+       - backend
+         
+  irt-back:
+    image: 76722/irt-back-end
+    restart: on-failure
+    depends_on:
+      - irt-mysql
+#    depends_on:
+#     irt-mysql:
+#        - condition: service_healthy
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_USERNAME: "admin"
+      SPRING_DATASOURCE_PASSWORD: "admin"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://irt-mysql:3306/taskmanager"
+      DATABASE_PORT: "3306"
+    networks:
+      - backend
+
+  irt-front:
+    image: vizartmd/irt-front-end
+    expose:
+      - 4200
+    ports:
+      - 80:4200
+    depends_on:
+      - irt-back
+networks:
+  backend:
+     external: true
+volumes:
+  db:
