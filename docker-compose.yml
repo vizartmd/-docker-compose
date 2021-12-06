@@ -21,8 +21,7 @@ services:
     image: 76722/irt-back-end
     restart: on-failure
     depends_on:
-      irt-mysql:
-        condition: service_healthy
+      - irt-mysql
     ports:
       - 8080:8080
     environment:
