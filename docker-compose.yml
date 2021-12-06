@@ -2,23 +2,18 @@ version: "3.3"
 
 services:
   irt-mysql:
-    image: mysql:8.0.26
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
       MYSQL_DATABASE: taskmanager
-    expose:
-      - 3306
     ports:
       - 3306:3306
     healthcheck:
       test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
       timeout: 20s
       retries: 10
-
-    volumes:
-      - db:/var/lib/mysql
     networks:
        - backend
          
@@ -26,12 +21,8 @@ services:
     image: 76722/irt-back-end
     restart: on-failure
     depends_on:
-      - irt-mysql
-#    depends_on:
-#     irt-mysql:
-#        - condition: service_healthy
-    expose:
-      - 8080
+      irt-mysql:
+        condition: service_healthy
     ports:
       - 8080:8080
     environment:
@@ -44,14 +35,11 @@ services:
 
   irt-front:
     image: vizartmd/irt-front-end
-    expose:
-      - 4200
-    ports:
-      - 80:4200
+    restart: on-failure
     depends_on:
       - irt-back
+    ports:
+      - 80:4200
+
 networks:
   backend:
-     external: true
-volumes:
-  db:
