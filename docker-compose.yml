@@ -2,12 +2,12 @@ version: "3.3"
 
 services:
   irt-mysql:
-    image: mysql:8.0
+    image: mysql:8.0.26
     environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
-      MYSQL_DATABASE: taskmanager
+      MYSQL_ROOT_PASSWORD: "${ROOT_PASSWORD}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_DATABASE: "${DATABASE}"
     ports:
       - 3306:3306
     healthcheck:
@@ -25,10 +25,11 @@ services:
     ports:
       - 8080:8080
     environment:
-      SPRING_DATASOURCE_USERNAME: "admin"
-      SPRING_DATASOURCE_PASSWORD: "admin"
-      SPRING_DATASOURCE_URL: "jdbc:mysql://irt-mysql:3306/taskmanager"
-      DATABASE_PORT: "3306"
+      SPRING_DATASOURCE_USERNAME: "${DB_USER}"
+      SPRING_DATASOURCE_PASSWORD: "${DB_PASSWORD}"
+      SPRING_DATASOURCE_URL: "${DATASOURCE_URL}"
+      JWT_KEY: "${JWT_KEY}"
+      JWT_EXPIRATION: "${JWT_EXPIRATION}"
     networks:
       - backend
 
@@ -39,6 +40,6 @@ services:
       - irt-back
     ports:
       - 80:4200
-      
+
 networks:
   backend:
