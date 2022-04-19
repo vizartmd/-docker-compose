@@ -35,12 +35,12 @@ services:
       - backend
 
   irt-front:
-    image: vizartmd/irt-front-end
+    image: vizartmd/irt-front-end2
     restart: on-failure
     depends_on:
       - irt-back
     ports:
-      - 81:4200
+      - 4000:4200
 
 networks:
   backend:
