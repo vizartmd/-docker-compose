@@ -18,7 +18,7 @@ services:
        - backend
          
   irt-back:
-    image: vizartmd/irt-back
+    image: vizartmd/irt-back:latest
     restart: on-failure
     depends_on:
       - irt-mysql
@@ -35,7 +35,7 @@ services:
       - backend
 
   irt-front:
-    image: vizartmd/irt-front
+    image: vizartmd/irt-front:latest
     restart: on-failure
     depends_on:
       - irt-back
