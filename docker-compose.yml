@@ -35,7 +35,7 @@ services:
       - backend
 
   irt-front:
-    image: docker push vizartmd/irt-front-end-none-jwt
+    image: vizartmd/irt-front-end-jwt-new
     restart: on-failure
     depends_on:
       - irt-back
