@@ -33,14 +33,3 @@ services:
       CORS_ALLOWED_ORIGINS: "${ALLOWED_ORIGIN}"
     networks:
       - backend
-
-  irt-front:
-    image: vizartmd/irt-front
-    restart: on-failure
-    depends_on:
-      - irt-back
-    ports:
-      - 4000:4200
-
-networks:
-  backend:
