@@ -18,7 +18,7 @@ services:
        - backend
          
   irt-back:
-    image: vizartmd/irt-good-back
+    image: vizartmd/irt-good-back:1.0.0
     restart: on-failure
     depends_on:
       - irt-mysql
